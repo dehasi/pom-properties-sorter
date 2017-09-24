@@ -3,23 +3,15 @@ package io.dehasi.core;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.Ordering;
 import javax.annotation.Nonnull;
 
-import java.util.List;
-
 public class Property implements Comparable<Property>{
-    private final String name;
-    private final String value;
+    final String name;
+    final String value;
 
     Property(String name, String value) {
         this.name = name;
         this.value = value;
-    }
-
-    String toXmlLine() {
-        String pattern = "<%s>%s</%s>";
-        return String.format(pattern, name, value, name);
     }
 
     @Override
@@ -28,10 +20,6 @@ public class Property implements Comparable<Property>{
                 .add("name", name)
                 .add("value", value)
                 .toString();
-    }
-
-    static boolean isPropertiesSorted(List<Property> properties) {
-        return Ordering.natural().isOrdered(properties);
     }
 
     @Override

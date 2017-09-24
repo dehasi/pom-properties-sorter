@@ -1,6 +1,5 @@
 package io.dehasi.core;
 
-import com.google.common.collect.Ordering;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -21,8 +20,22 @@ final class PomReader {
     private PomReader() {
     }
 
-    private static Property createProperty(Node node) {
-        return new Property(node.getNodeName() , node.getNodeName());
+    static List<Property> loadProperties(File pomFile) {
+        Document pom = loadPOM(pomFile);
+        return extractProperties(pom).stream().map(PomReader::createProperty).collect(toList());
+    }
+
+    private static Document loadPOM(File pomFile) {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+        try {
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(pomFile);
+            document.getDocumentElement().normalize();
+            return document;
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static List<Node> extractProperties(Document pom) {
@@ -39,23 +52,7 @@ final class PomReader {
         return nodes;
     }
 
-    private static Document loadPOM(File pomFile) {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
-        try {
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(pomFile);
-            document.getDocumentElement().normalize();
-            return document;
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            throw new RuntimeException(e);
-        }
+    private static Property createProperty(Node node) {
+        return new Property(node.getNodeName(), node.getNodeName());
     }
-
-    static List<Property> loadProperties(File pomFile) {
-        Document pom = loadPOM(pomFile);
-        return extractProperties(pom).stream().map(PomReader::createProperty).collect(toList());
-    }
-
-
 }
