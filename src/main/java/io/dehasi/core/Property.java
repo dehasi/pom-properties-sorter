@@ -5,6 +5,7 @@ import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
 import javax.annotation.Nonnull;
 
+/** Represents key-value property. */
 public class Property implements Comparable<Property>{
     final String name;
     final String value;
@@ -29,8 +30,12 @@ public class Property implements Comparable<Property>{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Property that = (Property) o;
 
         return Objects.equal(this.name, that.name) && Objects.equal(this.value, that.value);

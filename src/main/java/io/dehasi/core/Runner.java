@@ -6,6 +6,7 @@ import java.util.List;
 import static io.dehasi.core.PomReader.loadProperties;
 import static io.dehasi.core.PropertyUtil.isPropertiesSorted;
 
+/** Runner for pom properties sorter. */
 public class Runner {
 
     private void run() {
